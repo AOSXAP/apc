@@ -1,6 +1,8 @@
 #ifndef SETUP_H
 #define SETUP_H
 
+#include "file.h"
+
 ma_result result;
 ma_engine engine;
 ma_sound sound;
@@ -30,6 +32,7 @@ bool PLAY(char *arg){
     is_init = true;
 
     ma_sound_start(&sound);
+    is_playing = true;
     deQueue();
 
     return true;
@@ -56,7 +59,12 @@ bool mp_command(char *command){
     else if(strcmp(command,"play") == 0)
     {
         char argument[10000]; scanf("%s", argument);
-        enQueue(argument);
+
+        if(file_exists(argument))
+            enQueue(argument);
+        else{
+            printf("\nfile does not exist! \n\n");
+        }
 
         return true;
     }
@@ -67,11 +75,19 @@ bool mp_command(char *command){
         return START();
     }
     else if(strcmp(command,"skip") == 0){
-        ma_sound_uninit(&sound);
-        is_init = false;
-        is_playing = false;
-
+        if(is_playing){
+            ma_sound_uninit(&sound);
+            is_init = false;
+            is_playing = false;
+        }
         return true;
+    }
+    else if(strcmp(command, "clear") == 0){
+        system("clear");
+    }
+    else if(strcmp(command, "exit") == 0 || strcmp(command, "quit") == 0){
+        UNINIT_MN();
+        exit(1);
     }
     else{
         printf("stop / start / queue / play <song> / ... \n");

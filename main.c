@@ -45,7 +45,5 @@ int main(int argc, char **argv)
     }
 
     UNINIT_MN();
-    pthread_exit(NULL);
-
     return 0;
 }
