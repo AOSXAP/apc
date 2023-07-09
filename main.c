@@ -6,9 +6,9 @@
 #include <string.h>
 #include <pthread.h>
 
-#include "miniaudio.h"
-#include "queue.h"
-#include "funcs.h"
+#include "dependencies/miniaudio.h"
+#include "headers/queue.h"
+#include "headers/setup.h"
 
 
 void* task() {
@@ -30,6 +30,8 @@ void* task() {
 int main(int argc, char **argv)
 {
     INIT_MN();
+    int p_id = getpid();
+    printf("Process ID: %d\n", p_id);
 
     pthread_t thread;
     int ret = pthread_create(&thread, NULL, task, NULL);
@@ -43,6 +45,7 @@ int main(int argc, char **argv)
     }
 
     UNINIT_MN();
+    pthread_exit(NULL);
 
     return 0;
 }

@@ -1,5 +1,5 @@
-#ifndef FUNCS_H
-#define FUNCS_H
+#ifndef SETUP_H
+#define SETUP_H
 
 ma_result result;
 ma_engine engine;
