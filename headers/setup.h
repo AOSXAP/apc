@@ -9,7 +9,10 @@ ma_sound sound;
 
 //ma_sound is_playing
 bool is_playing = false;
-bool is_init = false;
+bool is_init    = false;
+
+int time_l  = 0; //current time of sound
+int s_floor = 0; //total time of sound
 
 bool INIT_MN(){
     result = ma_engine_init(NULL, &engine);
@@ -31,6 +34,11 @@ bool PLAY(char *arg){
     ma_sound_init_from_file(&engine, arg, 0, NULL, NULL, &sound);
     is_init = true;
 
+    float seconds;
+    ma_sound_get_length_in_seconds(&sound, &seconds);
+    s_floor = seconds;
+    time_l = 0;
+
     ma_sound_start(&sound);
     is_playing = true;
     deQueue();
@@ -51,6 +59,14 @@ bool MN_PLAYS(){
     return false;
 }
 
+void convert_seconds(int sec){
+    int h = sec /3600;
+    int m = (sec -(3600*h))/60;
+	int s = sec -(3600*h)-(m*60);
+    
+    printf("%d:%d:%d",h,m,s);
+}
+
 bool mp_command(char *command){
     if(strcmp(command,"stop") == 0)
     {
@@ -58,20 +74,23 @@ bool mp_command(char *command){
     }
     else if(strcmp(command,"play") == 0)
     {
-        char argument[10000]; scanf("%s", argument);
-
+        char argument[10000];
+        scanf(" %[^\n]",argument);
+        //printf("%s", argument);
+        
         if(file_exists(argument))
             enQueue(argument);
         else{
             printf("\nfile does not exist! \n\n");
         }
+        
 
         return true;
     }
     else if(strcmp(command,"queue") == 0){
         return print_queue();
     }
-    else if(strcmp(command, "start") == 0){
+    else if(strcmp(command, "resume") == 0){
         return START();
     }
     else if(strcmp(command,"skip") == 0){
@@ -84,6 +103,16 @@ bool mp_command(char *command){
     }
     else if(strcmp(command, "clear") == 0){
         system("clear");
+    }
+    else if(strcmp(command, "time") == 0){
+        //more efficient implementation needed
+        convert_seconds(time_l); 
+        printf(" - ");
+        convert_seconds(s_floor);
+
+        printf("\n");
+
+        return true;
     }
     else if(strcmp(command, "exit") == 0 || strcmp(command, "quit") == 0){
         UNINIT_MN();
@@ -99,3 +128,5 @@ bool mp_command(char *command){
 
 
 #endif
+
+//play weird names

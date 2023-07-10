@@ -10,7 +10,6 @@
 #include "headers/queue.h"
 #include "headers/setup.h"
 
-
 void* task() {
     while(true){
         if(!MN_PLAYS() || is_init == false){
@@ -20,6 +19,7 @@ void* task() {
                 PLAY(queue_top());
             }else is_playing = false;
         }
+        time_l++;
         sleep(1);
     }
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 
     while(true){
         char command[1000], argument[1000];
-        printf("music_player >>> ");
+        printf("APC_ ");
         scanf("%s", command);
 
         mp_command(command);
