@@ -1,6 +1,6 @@
 # Foobar
 
-Audio Player written in C, under development [early stage]
+Audio Player written in C, under development - early stage.
 
 ## Installation
 
