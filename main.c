@@ -9,6 +9,8 @@
 #include "src/dependencies/miniaudio.h"
 #include "src/headers/queue.h"
 #include "src/headers/setup.h"
+#include "src/headers/library.h"
+
 
 void* task() {
     while(true){
@@ -30,12 +32,14 @@ void* task() {
 
 int main(int argc, char **argv)
 {
-    //load songs
-    //binary search in C 
+    if(load_LIB()){
+        //loaded lib of songs
+        printf("__Library Loaded__\n");
+    }
 
     INIT_MN();
     int p_id = getpid();
-    printf("Process ID: %d\n", p_id);
+    printf("Process ID: %d\n\n", p_id);
 
     pthread_t thread;
     int ret = pthread_create(&thread, NULL, task, NULL);

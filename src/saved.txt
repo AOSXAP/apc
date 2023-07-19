@@ -1,0 +1,3 @@
+delia_1.mp3;/home/aosx/Documents/programming/apc/src/songs/delia 1.mp3
+delia_2.mp3;/home/aosx/Documents/programming/apc/src/songs/delia 1.mp3
+delia_3.mp3;/home/aosx/Documents/programming/apc/src/songs/delia 1.mp3
