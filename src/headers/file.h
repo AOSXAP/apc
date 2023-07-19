@@ -2,6 +2,7 @@
 #define FILE_H
 
 #include <unistd.h>
+#include <stdio.h>
 #include "file.h"
 
 int file_exists(char *file_name){
@@ -10,6 +11,17 @@ int file_exists(char *file_name){
     }
     return 0;
 }
+
+int append_to_file(char *file_name, char *name, char *location){
+    FILE *fp = fopen(file_name, "a+");
+    if(fp == NULL) return -1;
+    fprintf(fp, "%s/%s", name,location);
+
+    fclose(fp);
+    return 1;
+}
+
+//load into memory when program starts
 
 
 #endif

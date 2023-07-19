@@ -6,20 +6,21 @@
 #include <string.h>
 #include <pthread.h>
 
-#include "dependencies/miniaudio.h"
-#include "headers/queue.h"
-#include "headers/setup.h"
+#include "src/dependencies/miniaudio.h"
+#include "src/headers/queue.h"
+#include "src/headers/setup.h"
 
 void* task() {
     while(true){
         if(!MN_PLAYS() || is_init == false){
+            time_l = 0;
             if(queue_top() != NULL){
                 //is_playing = true;
                 if(is_init == true) ma_sound_uninit(&sound);
                 PLAY(queue_top());
             }else is_playing = false;
         }
-        time_l++;
+        if(is_playing) time_l++;
         sleep(1);
     }
 
@@ -29,6 +30,9 @@ void* task() {
 
 int main(int argc, char **argv)
 {
+    //load songs
+    //binary search in C 
+
     INIT_MN();
     int p_id = getpid();
     printf("Process ID: %d\n", p_id);

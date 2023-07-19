@@ -81,6 +81,7 @@ void convert_seconds(int sec){
 bool mp_command(char *command){
     if(strcmp(command,"stop") == 0)
     {
+        is_playing = false;
         return STOP();
     }
     else if(strcmp(command,"play") == 0)
@@ -102,6 +103,7 @@ bool mp_command(char *command){
         return print_queue();
     }
     else if(strcmp(command, "resume") == 0){
+        is_playing = true;
         return START();
     }
     else if(strcmp(command,"skip") == 0){
@@ -117,10 +119,13 @@ bool mp_command(char *command){
     }
     else if(strcmp(command, "time") == 0){
         //more efficient implementation needed
-        convert_seconds(time_l); 
-        printf(" - ");
-        convert_seconds(s_floor);
-
+        if(!is_playing){
+            printf("song not playing");
+        }else{
+            convert_seconds(time_l); 
+            printf(" - ");
+            convert_seconds(s_floor);
+        }
         printf("\n");
 
         return true;
@@ -130,7 +135,7 @@ bool mp_command(char *command){
         exit(1);
     }
     else{
-        printf("stop / start / queue / play <song> / ... \n");
+        printf("stop / resume / queue / play <song> / time ... \n");
         return true;
     }
 
@@ -139,5 +144,3 @@ bool mp_command(char *command){
 
 
 #endif
-
-//play weird names
