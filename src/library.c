@@ -1,8 +1,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "library.h"
-#include "file.h"
+#include <library.h>
+#include <file.h>
 
 struct LIBRARY LIB[size_lib];
 unsigned int LIB_I = 0;
@@ -13,7 +13,7 @@ int compare(char* a, char* b){
     if(comp == 0)     return  0;
     else if(comp > 0) return  1;
     else              return -1;
-    
+
 }
 
 //use this with read file

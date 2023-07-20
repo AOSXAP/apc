@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "../dependencies/miniaudio.h"
+#include <miniaudio.h>
 
 extern ma_result result;
 extern ma_engine engine;
