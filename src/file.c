@@ -35,10 +35,14 @@ int read_file(const char *file_name, int (*f)(char*,char*))
         char name[5096], filepath[5096 * 2];
 
         char* token = strtok(line,";"); //name first
+        if(token == NULL) continue;
         strcpy(name , token);
 
         token = strtok(NULL, ";"); //filepath
+        if(token == NULL) continue;
         strcpy(filepath , token);
+
+        if(filepath[strlen(filepath) -1] == '\n')
         filepath[strlen(filepath) - 1] = '\0'; //no \n
 
         (*f)(name,filepath);

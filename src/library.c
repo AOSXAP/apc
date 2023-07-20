@@ -19,6 +19,10 @@ int compare(char* a, char* b){
 //use this with read file
 int submit_to_LIB(char* filename , char* path){
     LIB[LIB_I].index = LIB_I;
+    
+    LIB[LIB_I].file_name = (char *)malloc(strlen(filename) * sizeof(char));
+    LIB[LIB_I].file_path = (char *)malloc(strlen(path)     * sizeof(char));
+
     strcpy(LIB[LIB_I].file_name, filename);
     strcpy(LIB[LIB_I].file_path, path);
 
