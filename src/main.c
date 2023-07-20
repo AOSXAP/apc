@@ -70,6 +70,9 @@ int main(void) {
 
         if(status == EOF) return status;
 
+        if(strcmp(command, "exit") == 0 || strcmp(command, "quit") == 0)
+            break;
+
         mp_command(command);
     }
 

@@ -127,10 +127,6 @@ bool mp_command(char *command){
 
         return true;
     }
-    else if(strcmp(command, "exit") == 0 || strcmp(command, "quit") == 0){
-        UNINIT_MN();
-        exit(1);
-    }
     else if(strcmp(command, "lib") == 0){
         print_LIB();
     }
