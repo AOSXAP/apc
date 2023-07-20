@@ -8,8 +8,7 @@ Audio Player written in C, under development - early stage
 git clone git@github.com:AOSXAP/apc.git
 cd apc
 mkdir build && cd build
-cmake ..
-make
+cmake .. && make
 ./bin/apc
 ```
 
