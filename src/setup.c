@@ -45,7 +45,7 @@ bool PLAY(char *arg){
 
     float seconds;
     ma_sound_get_length_in_seconds(&sound, &seconds);
-    s_floor = seconds;
+    s_floor = (int)seconds;
     time_l = 0;
 
     ma_sound_start(&sound);

@@ -29,7 +29,7 @@ void* task() {
 }
 
 
-int main(int argc, char **argv)
+int main()
 {
     if(load_LIB()){
         //loaded lib of songs
@@ -41,10 +41,10 @@ int main(int argc, char **argv)
     printf("Process ID: %d\n\n", p_id);
 
     pthread_t thread;
-    int ret = pthread_create(&thread, NULL, task, NULL);
+    pthread_create(&thread, NULL, task, NULL);
 
     while(true){
-        char command[1000], argument[1000];
+        char command[1000];
         printf("APC_ ");
         scanf("%s", command);
 

@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <library.h>
 #include <file.h>
@@ -31,7 +32,7 @@ int submit_to_LIB(char* filename , char* path){
 }
 
 void print_LIB(){
-    for(int index = 0; index < LIB_I; index++){
+    for(unsigned int index = 0; index < LIB_I; index++){
         printf("%d\t%s\t%s \n"   ,
             LIB[index].index     ,
             LIB[index].file_name ,
