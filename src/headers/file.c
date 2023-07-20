@@ -14,7 +14,7 @@ int file_exists(char *file_name){
 int append_to_file(char *file_name, char *name, char *location){
     FILE *fp = fopen(file_name, "a+");
     if(fp == NULL) return -1;
-    fprintf(fp, "%s;%s", name,location);
+    fprintf(fp, "\n%s;%s", name,location);
 
     fclose(fp);
     return 1;
@@ -38,6 +38,7 @@ int read_file(const char *file_name, int (*f)(char*,char*))
         
         token = strtok(NULL, ";"); //filepath
         strcpy(filepath , token);
+        filepath[strlen(filepath) - 1] = '\0'; //no \n
         
         (*f)(name,filepath);
     }
@@ -47,4 +48,3 @@ int read_file(const char *file_name, int (*f)(char*,char*))
 
     return 1;
 }
-

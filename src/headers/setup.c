@@ -9,7 +9,7 @@
 #include "../dependencies/miniaudio.h"
 #include "queue.h"
 #include "file.h"
-
+#include "library.h"
 #include "setup.h"
 
 ma_result result;
@@ -131,6 +131,48 @@ bool mp_command(char *command){
     else if(strcmp(command, "exit") == 0 || strcmp(command, "quit") == 0){
         UNINIT_MN();
         exit(1);
+    }
+    else if(strcmp(command, "lib") == 0){
+        print_LIB();
+    }
+    else if(strcmp(command, "la") == 0 || strcmp(command, "lib-add") == 0){
+        printf("path: ");
+        char path[10000]; scanf(" %[^\n]",path);
+
+        printf("name: ");
+        char name[1000]; scanf(" %[^\n]",name);
+
+        //handle if file has \n before and after, fix errors
+        //also it would be better sto store full path
+        if(file_exists(path)){
+            submit_to_LIB(name,path);
+            append_to_file("src/saved.txt" , name, path);
+
+            printf("file submitted and stored\n\n");
+
+            char namex[1001]; namex[0] = '\n'; strcpy(namex+1 , name);
+
+            return true;
+        }else{
+            printf("file does not exist\n\n");
+        }
+
+        return false;
+    }
+    else if(strcmp(command , "pl") == 0 || strcmp(command , "lib-play") == 0){
+        int selected_index = -1;
+        scanf("%d", &selected_index);
+
+        if(file_exists(LIB[selected_index].file_path)){
+            enQueue(LIB[selected_index].file_path);
+
+            printf("%s %s\n\n", LIB[selected_index].file_path, LIB[selected_index].file_name);
+        }
+        else{
+            printf("\nfile does not exist! \n\n");
+        }
+
+        return true;
     }
     else{
         printf("stop / resume / queue / play <song> / time ... \n");
