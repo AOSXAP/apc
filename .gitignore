@@ -2,5 +2,8 @@ ladygaga.mp3
 main
 sound.wav
 .vscode
+.cache
+.vim
+build
 songs
 ./main

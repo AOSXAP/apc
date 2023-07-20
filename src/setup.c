@@ -6,11 +6,11 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-#include "../dependencies/miniaudio.h"
-#include "queue.h"
-#include "file.h"
-#include "library.h"
-#include "setup.h"
+#include <miniaudio.h>
+#include <queue.h>
+#include <file.h>
+#include <library.h>
+#include <setup.h>
 
 ma_result result;
 ma_engine engine;
@@ -38,7 +38,7 @@ bool UNINIT_MN(){
 }
 
 bool PLAY(char *arg){
-    //ma_engine_play_sound(&engine, arg, NULL); 
+    //ma_engine_play_sound(&engine, arg, NULL);
     //if(is_playing) ma_sound_uninit(&sound);
     ma_sound_init_from_file(&engine, arg, 0, NULL, NULL, &sound);
     is_init = true;
@@ -72,7 +72,7 @@ void convert_seconds(int sec){
     int h = sec /3600;
     int m = (sec -(3600*h))/60;
 	int s = sec -(3600*h)-(m*60);
-    
+
     printf("%d:%d:%d",h,m,s);
 }
 
@@ -87,13 +87,13 @@ bool mp_command(char *command){
         char argument[10000];
         scanf(" %[^\n]",argument);
         //printf("%s", argument);
-        
+
         if(file_exists(argument))
             enQueue(argument);
         else{
             printf("\nfile does not exist! \n\n");
         }
-        
+
 
         return true;
     }
@@ -120,7 +120,7 @@ bool mp_command(char *command){
         if(!is_playing){
             printf("song not playing");
         }else{
-            convert_seconds(time_l); 
+            convert_seconds(time_l);
             printf(" - ");
             convert_seconds(s_floor);
         }

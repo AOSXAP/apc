@@ -6,11 +6,10 @@
 #include <string.h>
 #include <pthread.h>
 
-#include "src/dependencies/miniaudio.h"
-#include "src/headers/queue.h"
-#include "src/headers/setup.h"
-#include "src/headers/library.h"
-
+#include <miniaudio.h>
+#include <queue.h>
+#include <setup.h>
+#include <library.h>
 
 void* task() {
     while(true){

@@ -1,13 +1,14 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "queue.h"
+
+#include <queue.h>
 
 char QUEUE[size][size];
 int front = -1, rear = -1;
 
 bool enQueue(char *string){
-    if(rear == size - 1) 
+    if(rear == size - 1)
         return false;
     else{
         //init front
@@ -34,7 +35,7 @@ bool deQueue(){
 }
 
 bool print_queue(){
-    if(rear == -1) 
+    if(rear == -1)
         return false;
     else{
         printf("\n");
