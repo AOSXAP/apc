@@ -41,7 +41,6 @@ int manager(void * data) {
 #define CMD_SIZE 1000
 
 int main(void) {
-
     if(load_LIB()){
         //loaded lib of songs
         printf("__Library Loaded__\n");

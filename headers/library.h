@@ -4,9 +4,9 @@
 #define size_lib 5096
 
 struct LIBRARY{
-    int index;
-    char file_name[size_lib];
-    char file_path[size_lib * 2];
+    unsigned int index;
+    char    *file_name;
+    char    *file_path;
 };
 
 extern struct LIBRARY LIB[size_lib];

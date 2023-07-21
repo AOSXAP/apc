@@ -7,7 +7,9 @@ Audio Player written in C, under development - early stage
 ```bash
 git clone git@github.com:AOSXAP/apc.git
 cd apc
-make build && ./main
+mkdir build && cd build
+cmake .. && make
+./bin/apc
 ```
 
 ## Usage

@@ -24,28 +24,32 @@ int append_to_file(char *file_name, char *name, char *location){
 int read_file(const char *file_name, int (*f)(char*,char*))
 {
     FILE* fp;
-    char* line = NULL;
-    unsigned long len = 0;
-    long read;
+    int len = 5096;
+    char line[len*2];
 
     fp = fopen(file_name, "r");
     if (fp == NULL) return -1;
 
-    while ((read = getline(&line, &len, fp)) != -1) {
-        char name[5096], filepath[5096 * 2];
+    while (fgets(line, len*2, fp) != NULL) {
+        char *name, *filepath;
 
         char* token = strtok(line,";"); //name first
+        if(token == NULL) continue;
+        name = (char *)malloc(strlen(token) * sizeof(char));
         strcpy(name , token);
 
         token = strtok(NULL, ";"); //filepath
+        if(token == NULL) continue;
+        filepath = (char *)malloc(strlen(token) * sizeof(char));
         strcpy(filepath , token);
+
+        if(filepath[strlen(filepath) -1] == '\n')
         filepath[strlen(filepath) - 1] = '\0'; //no \n
 
         (*f)(name,filepath);
     }
 
     fclose(fp);
-    if (line) free(line);
 
     return 1;
 }
