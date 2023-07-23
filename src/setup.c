@@ -146,7 +146,7 @@ bool mp_command(char *command){
         //also it would be better sto store full path
         if(file_exists(path)){
             submit_to_LIB(name,path);
-            append_to_file("src/saved.txt" , name, path);
+            append_to_file(LIB_PATH , name, path);
 
             printf("file submitted and stored\n\n");
 
