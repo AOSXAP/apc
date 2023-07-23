@@ -13,7 +13,7 @@ extern ma_sound sound;
 extern bool is_playing;
 extern bool is_init   ;
 
-extern int time_l ; //current time of sound
+extern time_t time_l ; //current time of sound
 extern int s_floor; //total time of sound
 
 bool INIT_MN();
@@ -28,7 +28,7 @@ bool START();
 
 bool MN_PLAYS();
 
-void convert_seconds(int sec);
+void convert_seconds(time_t sec);
 
 bool mp_command(char *command);
 

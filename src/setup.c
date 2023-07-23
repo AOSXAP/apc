@@ -19,7 +19,7 @@ ma_sound sound;
 bool is_playing = false;
 bool is_init    = false;
 
-int time_l  = 0; //current time of sound
+time_t time_l  = 0; //current time of sound
 int s_floor = 0; //total time of sound
 
 bool INIT_MN(){
@@ -43,9 +43,10 @@ bool PLAY(char *arg){
     is_init = true;
 
     float seconds;
+
     ma_sound_get_length_in_seconds(&sound, &seconds);
     s_floor = (int)seconds;
-    time_l = 0;
+    time_l = time(NULL);
 
     ma_sound_start(&sound);
     is_playing = true;
@@ -67,12 +68,12 @@ bool MN_PLAYS(){
     return false;
 }
 
-void convert_seconds(int sec){
-    int h = sec /3600;
-    int m = (sec -(3600*h))/60;
-	int s = sec -(3600*h)-(m*60);
+void convert_seconds(time_t sec){
+    time_t h = sec / 3600;
+    time_t m = (sec - (3600 * h)) / 60;
+    time_t s = sec - (3600 * h) - (m * 60);
 
-    printf("%d:%d:%d",h,m,s);
+    printf("%d:%d:%d", h, m, s);
 }
 
 bool mp_command(char *command){
@@ -119,7 +120,7 @@ bool mp_command(char *command){
         if(!is_playing){
             printf("song not playing");
         }else{
-            convert_seconds(time_l);
+            convert_seconds(time(NULL) - time_l);
             printf(" - ");
             convert_seconds(s_floor);
         }

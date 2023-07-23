@@ -11,14 +11,18 @@
 #include <setup.h>
 #include <library.h>
 
-#define MS_TO_NS(ms) (ms * 1000000ULL)
+#define MS_TO_NS(ms) ((ms) * 1000000ULL)
+
+mtx_t mut; // NOLINT
 
 int manager(void * data) {
     const atomic_bool * const stop_token = (atomic_bool*)(data);
 
     while(*stop_token == false) {
+        int status = mtx_lock(&mut);
+
         if(!MN_PLAYS() || is_init == false) {
-            time_l = 0;
+            time_l = time(NULL);
 
             if(queue_top() != NULL) {
                 //is_playing = true;
@@ -27,9 +31,9 @@ int manager(void * data) {
             } else is_playing = false;
         }
 
-        if(is_playing) time_l++;
+        status = mtx_unlock(&mut);
 
-        const int status =
+        status =
             thrd_sleep(&(struct timespec){ .tv_nsec = MS_TO_NS(1ULL) }, NULL);
 
         if(status != 0) return status;
@@ -52,7 +56,11 @@ int main(void) {
 
     atomic_bool stop_token = false;
 
-    int status = thrd_create(&audio_manager, manager, &stop_token);
+    int status = mtx_init(&mut, mtx_plain);
+
+    if(status == thrd_error) return 0;
+
+    status = thrd_create(&audio_manager, manager, &stop_token);
 
     if(status == thrd_error || status == thrd_nomem)
         return 0;
@@ -72,7 +80,11 @@ int main(void) {
         if(strcmp(command, "exit") == 0 || strcmp(command, "quit") == 0)
             break;
 
+        status = mtx_lock(&mut);
+
         mp_command(command);
+
+        status = mtx_unlock(&mut);
     }
 
     UNINIT_MN();
@@ -84,6 +96,8 @@ int main(void) {
     status = thrd_join(audio_manager, &manager_state);
 
     if(status == thrd_error) return status;
+
+    mtx_destroy(&mut);
 
     return manager_state;
 }
