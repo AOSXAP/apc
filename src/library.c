@@ -1,9 +1,17 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <unistd.h>
 #include <library.h>
 #include <file.h>
+
+#ifdef WIN32
+#include <io.h>
+#define F_OK 0
+#define access _access
+#endif
+
+const char* LIB_PATH = "../src/saved.txt";
 
 struct LIBRARY LIB[size_lib];
 unsigned int LIB_I = 0;
@@ -43,9 +51,23 @@ void print_LIB(){
     printf("\n");
 }
 
+int init_LIB_file(){
+    if (access(LIB_PATH, F_OK) != 0) {
+        FILE *fp;
+        fp = fopen (LIB_PATH, "a");
+        fclose(fp);
+    } 
+
+    return 1;
+}
+
 
 int load_LIB(){
     //read from saved.txt and load results in LIB
-    read_file("src/saved.txt" , &submit_to_LIB);
+    init_LIB_file();
+
+    read_file(LIB_PATH , &submit_to_LIB);
     return 1;
 }
+
+//store file in universal location

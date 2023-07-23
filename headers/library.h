@@ -1,6 +1,8 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
 
+extern const char* LIB_PATH;
+
 #define size_lib 5096
 
 struct LIBRARY{
@@ -21,5 +23,7 @@ int submit_to_LIB(char* filename , char* path);
 void print_LIB();
 
 int load_LIB();
+
+int init_LIB_file();
 
 #endif
