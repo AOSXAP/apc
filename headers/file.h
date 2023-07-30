@@ -9,4 +9,8 @@ int read_file(const char *file_name, int (*f)(char*,char*));
 
 char* get_absolute_path(char *path);
 
+int delete_file_line(const char *file_name, int line);
+
+char* get_relative_path(char *file_name);
+
 #endif

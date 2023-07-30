@@ -61,8 +61,7 @@ int init_LIB_file(){
     return 1;
 }
 
-
-int load_LIB(){
+int load_LIB(void){
     //read from saved.txt and load results in LIB
     init_LIB_file();
 
