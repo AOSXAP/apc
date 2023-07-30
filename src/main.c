@@ -5,11 +5,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
-
 #include <miniaudio.h>
-#include <queue.h>
-#include <setup.h>
-#include <library.h>
+#include "queue.h"
+#include "setup.h"
+#include "library.h"
 
 void* task() {
     while(true){

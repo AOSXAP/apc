@@ -5,12 +5,11 @@
 #include <string.h>
 #include <pthread.h>
 #include <stdlib.h>
-
 #include <miniaudio.h>
-#include <queue.h>
-#include <file.h>
-#include <library.h>
-#include <setup.h>
+#include "queue.h"
+#include "file.h"
+#include "library.h"
+#include "setup.h"
 
 ma_result result;
 ma_engine engine;

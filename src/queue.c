@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <queue.h>
+#include "queue.h"
 
 char QUEUE[size][size];
 int front = -1, rear = -1;

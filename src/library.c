@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <library.h>
-#include <file.h>
+#include "library.h"
+#include "file.h"
 
 #ifdef WIN32
 #include <io.h>
@@ -55,7 +55,8 @@ int init_LIB_file(){
     if (access(LIB_PATH, F_OK) != 0) {
         FILE *fp;
         fp = fopen (LIB_PATH, "a");
-        fclose(fp);
+        
+        if(fp != NULL) fclose(fp);
     } 
 
     return 1;

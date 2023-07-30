@@ -7,3 +7,5 @@ sound.wav
 build
 songs
 ./main
+libminiaudio.a
+build_mini
