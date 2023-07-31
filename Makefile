@@ -1,13 +1,13 @@
 rootdir = $(realpath .)
 
 CC = gcc
-CFLAGS  = -g -ggdb3 -lm -Wall -Werror
+CFLAGS  = -g -ggdb3 -Wall -Werror
 
 HEADERS = -I$(rootdir)/headers
 MINIAUDIO_HEADERS =  -I$(rootdir)/dependencies/miniaudio/include 
 
 FILES = $(wildcard src/*.c) 
-LMINI = -L. -lminiaudio
+LMINI = -L. -lminiaudio -lm
 
 #colors
 COLOUR_GREEN ='\033[0;32m'
