@@ -1,12 +1,12 @@
-name: clang-tidy
+name: compile
 
 on:
   push:
     branches: [ "main" ]
     paths:
       - src/**
-      - .github/workflows/clang-tidy.yml
-      - bin/*
+      - .github/workflows/compile.yml
+      - bin/**
   pull_request:
     branches: [ "main" ]
 
