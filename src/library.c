@@ -11,7 +11,7 @@
 #define access _access
 #endif
 
-const char* LIB_PATH = "../src/saved.txt";
+char LIB_PATH[size_lib_path] = "src/saved.txt";
 
 struct LIBRARY LIB[size_lib];
 unsigned int LIB_I = 0;
@@ -53,7 +53,7 @@ void print_LIB(){
 
 int init_LIB_file(){
     if (access(LIB_PATH, F_OK) != 0) {
-        FILE *fp;
+        FILE *fp = NULL;
         fp = fopen (LIB_PATH, "a");
         
         if(fp != NULL) fclose(fp);
@@ -64,10 +64,21 @@ int init_LIB_file(){
 
 int load_LIB(void){
     //read from saved.txt and load results in LIB
+
+    //get path of binary
+    char buffer[size_lib_path];
+    readlink("/proc/self/exe", buffer, size_lib_path);
+
+    //eliminate bin/apc from path
+    strcpy(LIB_PATH,buffer);
+    LIB_PATH[strlen(LIB_PATH) - 7] = '\0';
+
+    //add element to path
+    strcat(LIB_PATH, "src/saved.txt");
+
+    printf("LIB_FILE_PATH: %s\n", LIB_PATH);
     init_LIB_file();
 
     read_file(LIB_PATH , &submit_to_LIB);
     return 1;
 }
-
-//store file in universal location

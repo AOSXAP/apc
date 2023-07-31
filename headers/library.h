@@ -1,8 +1,7 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
 
-extern const char* LIB_PATH;
-
+#define size_lib_path 40096
 #define size_lib 5096
 
 struct LIBRARY{
@@ -10,6 +9,8 @@ struct LIBRARY{
     char    *file_name;
     char    *file_path;
 };
+
+extern char LIB_PATH[size_lib_path];
 
 extern struct LIBRARY LIB[size_lib];
 

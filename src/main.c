@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
+#include <limits.h>
+
 #include <miniaudio.h>
 #include "queue.h"
 #include "setup.h"
@@ -32,7 +34,7 @@ int main()
 {
     if(load_LIB()){
         //loaded lib of songs
-        printf("__Library Loaded__\n");
+        printf("__Library Loaded__\n\n");
     }
 
     INIT_MN();
