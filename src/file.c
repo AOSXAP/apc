@@ -66,26 +66,20 @@ int read_file(const char *file_name, int (*f)(char*,char*))
 }
 
 char* get_relative_path(char *file_name){
-   #ifdef _WIN32
-        char absolutePath[MAX_PATH];
+    #ifdef _WIN32
+        char *absolutePath = malloc(MAX_PATH * sizeof(char));
         DWORD pathLength = GetFullPathNameA(file_name, MAX_PATH, absolutePath, NULL);
 
-        if(pathLength == 0){
-            printf("file not found");
-        }else{
-            printf("%s",absolutePath);
-        }
-   #else
+        if(pathLength != 0)
+           return absolutePath
+    #else
         char *absolutePath = realpath(file_name, NULL);
 
-        if(absolutePath == NULL){
-            printf("file not found");
-        }else printf("%s",absolutePath);
+        if(absolutePath != NULL) 
+            return absolutePath;
+    #endif
 
-        free(absolutePath);
-   #endif
-
-   return "";
+   return NULL;
 }
 
 int delete_file_line(const char *file_name, int line){

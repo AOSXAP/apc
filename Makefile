@@ -23,7 +23,7 @@ endef
 lines:
 	@echo $(shell git ls-files | xargs wc -l)
 
-cl_tidy:
+tidy:
 	@echo $(shell clang-tidy $(FILES))
 
 compile_miniaudio:

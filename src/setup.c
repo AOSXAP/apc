@@ -143,13 +143,15 @@ bool mp_command(char *command){
 
         //handle if file has \n before and after, fix errors
         //also it would be better sto store full path
+        
+
         if(file_exists(path)){
-            submit_to_LIB(name,path);
-            append_to_file(LIB_PATH , name, path);
+            char *pathx = get_relative_path(path);
+            submit_to_LIB(name,pathx);
+            append_to_file(LIB_PATH , name, pathx);
 
             printf("file submitted and stored\n\n");
-
-            char namex[1001]; namex[0] = '\n'; strcpy(namex+1 , name);
+            free(pathx);
 
             return true;
         }else{
