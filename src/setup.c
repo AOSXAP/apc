@@ -146,7 +146,7 @@ bool mp_command(char *command){
         
 
         if(file_exists(path)){
-            char *pathx = get_relative_path(path);
+            char *pathx = get_absolute_path(path);
             submit_to_LIB(name,pathx);
             append_to_file(LIB_PATH , name, pathx);
 

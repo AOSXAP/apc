@@ -65,7 +65,7 @@ int read_file(const char *file_name, int (*f)(char*,char*))
     return 1;
 }
 
-char* get_relative_path(char *file_name){
+char* get_absolute_path(char *file_name){
     #ifdef _WIN32
         char *absolutePath = malloc(MAX_PATH * sizeof(char));
         DWORD pathLength = GetFullPathNameA(file_name, MAX_PATH, absolutePath, NULL);
