@@ -9,5 +9,5 @@ songs
 ./main
 libminiaudio.a
 build_mini
-bin/*
+
 *.mp3
