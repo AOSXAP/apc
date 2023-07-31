@@ -19,16 +19,6 @@ define NEWLINE
 
 endef
 
-
-lines:
-	@echo $(shell git ls-files | xargs wc -l)
-
-tidy:
-	@echo $(shell clang-tidy $(FILES))
-
-compile_miniaudio:
-	make_scripts/init_miniaudio.sh
-
 compile: $(FILES)
 ifeq ($(shell test -e libminiaudio.a && echo -n yes),yes)
 	@echo -e $(COLOUR_GREEN)Static lib exists.$(END_COLOUR) 
@@ -45,3 +35,12 @@ endif
 	@echo -e $(NEWLINE)
 
 	@echo -e $(COLOUR_GREEN)Binary generated in ./bin/apc$(END_COLOUR)
+
+lines:
+	@echo $(shell git ls-files | xargs wc -l)
+
+tidy:
+	@echo $(shell clang-tidy $(FILES))
+
+compile_miniaudio:
+	make_scripts/init_miniaudio.sh
