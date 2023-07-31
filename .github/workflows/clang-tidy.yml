@@ -6,6 +6,7 @@ on:
     paths:
       - src/**
       - .github/workflows/clang-tidy.yml
+      - bin/*
   pull_request:
     branches: [ "main" ]
 
