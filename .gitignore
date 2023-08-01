@@ -11,3 +11,4 @@ libminiaudio.a
 build_mini
 apc
 *.mp3
+saved.txt
