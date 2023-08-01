@@ -161,8 +161,11 @@ bool mp_command(char *command){
         return false;
     }
     else if(strcmp(command , "pl") == 0 || strcmp(command , "lib-play") == 0){
+        char argq[1000]; scanf("%s", argq);
+
         int selected_index = -1;
-        scanf("%d", &selected_index);
+
+        selected_index = strtol(argq, NULL, 10);
 
         if(file_exists(LIB[selected_index].file_path)){
             enQueue(LIB[selected_index].file_path);

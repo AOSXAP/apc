@@ -1,20 +1,21 @@
 #ifdef _WIN32
-    #include <stdio.h>
     #include <windows.h>
 #else
     #define _GNU_SOURCE
 
     #include <unistd.h>
     #include <string.h>
-    #include <stdio.h>
     #include <stdlib.h>
-    #include <stdio.h>
     #include <limits.h>
 #endif
 
+#include <stdio.h>
 #include "file.h"
 
-#define BUFFER_SIZE 1000
+enum {
+    BUFFER_SIZE  = 1000,
+    LINE_LENGTH = 10000
+};
 
 int file_exists(char *file_name){
     if (access(file_name, F_OK) == 0) {
@@ -24,45 +25,50 @@ int file_exists(char *file_name){
 }
 
 int append_to_file(const char *file_name, char *name, char *location){
-    FILE *fp = fopen(file_name, "a+");
-    if(fp == NULL) return -1;
-    fprintf(fp, "\n%s;%s", name,location);
+    FILE *file_p = fopen(file_name, "a+");
+    if(file_p == NULL) return -1;
 
-    fclose(fp);
-    return 1;
+    int return_val = fprintf(file_p, "\n%s;%s", name,location);
+
+    int file_closed = fclose(file_p);
+
+    if(return_val > 0 && file_closed == 0) return 1;
+    else return 0;
 }
 
-int read_file(const char *file_name, int (*f)(char*,char*))
+int read_file(const char *file_name, int (*function)(char*,char*))
 {
-    FILE* fp;
-    int len = 5096;
-    char line[len*2];
+    FILE* file_p = NULL;
+    char line[LINE_LENGTH];
 
-    fp = fopen(file_name, "r");
-    if (fp == NULL) return -1;
+    file_p = fopen(file_name, "r");
+    if (file_p == NULL) return -1;
 
-    while (fgets(line, len*2, fp) != NULL) {
-        char *name, *filepath;
-
+    while (fgets(line, LINE_LENGTH, file_p) != NULL) {
+        char *name = NULL;
+        char *filepath = NULL;
         char* token = strtok(line,";"); //name first
+
         if(token == NULL) continue;
         name = (char *)malloc(strlen(token) * sizeof(char));
         strcpy(name , token);
 
         token = strtok(NULL, ";"); //filepath
         if(token == NULL) continue;
+
         filepath = (char *)malloc(strlen(token) * sizeof(char));
         strcpy(filepath , token);
 
         if(filepath[strlen(filepath) -1] == '\n')
-        filepath[strlen(filepath) - 1] = '\0'; //no \n
+            filepath[strlen(filepath) - 1] = '\0'; //no \n
 
-        (*f)(name,filepath);
+        (*function)(name,filepath);
     }
 
-    fclose(fp);
+    int file_closed = fclose(file_p);
 
-    return 1;
+    if(file_closed == 0) return 1;
+    return 0;
 }
 
 char* get_absolute_path(char *file_name){
