@@ -1,8 +1,8 @@
 rootdir = $(realpath .)
 
 CC = gcc
-CFLAGS  = -g -ggdb3 -Wall -Werror
-
+CFLAGS  = -std=c11 -g -D_GNU_SOURCE -ggdb3 -Wall -Werror
+ 
 HEADERS = -I$(rootdir)/headers
 MINIAUDIO_HEADERS =  -I$(rootdir)/dependencies/miniaudio/include 
 
@@ -40,7 +40,7 @@ lines:
 	@echo $(shell git ls-files | xargs wc -l)
 
 tidy:
-	@echo $(shell clang-tidy $(FILES))
+	@echo $(shell clang-tidy $(FILES) -- $(HEADERS) $(MINIAUDIO_HEADERS))
 
 compile_miniaudio:
 	make_scripts/init_miniaudio.sh

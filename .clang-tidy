@@ -10,6 +10,7 @@ Checks: >
   -modernize-use-trailing-return-type,
   -zircon-*,
   -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-avoid-non-const-global-variables,
   -readability-avoid-const-params-in-decls,
   -readability-braces-around-statements,
   -readability-else-after-return,

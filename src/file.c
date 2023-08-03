@@ -1,21 +1,15 @@
 #ifdef _WIN32
     #include <windows.h>
 #else
-    #define _GNU_SOURCE
-
     #include <unistd.h>
-    #include <string.h>
     #include <stdlib.h>
     #include <limits.h>
 #endif
 
+#include <string.h>
 #include <stdio.h>
-#include "file.h"
 
-enum {
-    BUFFER_SIZE  = 1000,
-    LINE_LENGTH = 10000
-};
+#include "file.h"
 
 int file_exists(char *file_name){
     if (access(file_name, F_OK) == 0) {
@@ -42,27 +36,40 @@ int read_file(const char *file_name, int (*function)(char*,char*))
     char line[LINE_LENGTH];
 
     file_p = fopen(file_name, "r");
+
     if (file_p == NULL) return -1;
 
     while (fgets(line, LINE_LENGTH, file_p) != NULL) {
         char *name = NULL;
         char *filepath = NULL;
-        char* token = strtok(line,";"); //name first
+
+        //for strtok_r
+        char* saveptr1 = NULL;
+
+        char* token = strtok_r(line,";",&saveptr1); //name first
 
         if(token == NULL) continue;
+
         name = (char *)malloc(strlen(token) * sizeof(char));
-        strcpy(name , token);
+        strcpy(name, token);
 
-        token = strtok(NULL, ";"); //filepath
-        if(token == NULL) continue;
+        token = strtok_r(NULL, ";", &saveptr1); //filepath
+        if(token == NULL){
+            //dealoc name if filepath would be null
+            if(name != NULL) free(name);
+            continue;
+        }
 
         filepath = (char *)malloc(strlen(token) * sizeof(char));
-        strcpy(filepath , token);
+        strcpy(filepath, token);
 
         if(filepath[strlen(filepath) -1] == '\n')
             filepath[strlen(filepath) - 1] = '\0'; //no \n
 
         (*function)(name,filepath);
+
+        if(name != NULL) free(name);
+        if(filepath!=NULL) free(filepath);
     }
 
     int file_closed = fclose(file_p);
@@ -89,11 +96,12 @@ char* get_absolute_path(char *file_name){
 }
 
 int delete_file_line(const char *file_name, int line){
-    FILE *initial_file, *tmp_file;
+    FILE* initial_file = NULL;
+    FILE*     tmp_file = NULL;
 
     //perfect copy - except one line
-    initial_file  = fopen(file_name, "r");
-    tmp_file = fopen("delete.tmp", "w");
+    initial_file  = fopen(file_name, "r")   ;
+    tmp_file      = fopen("delete.tmp", "w");
 
     int count = 0;
     char buffer[BUFFER_SIZE];
@@ -101,14 +109,17 @@ int delete_file_line(const char *file_name, int line){
     while(fgets(buffer, BUFFER_SIZE, initial_file) != NULL){
         if(line != count){
             printf("%s", buffer);
-            fputs(buffer, tmp_file);
+            int return_val = fputs(buffer, tmp_file);
+
+            if(return_val < 0) printf("possible error \n"); 
         }
 
         count++;
     }
 
     //close files 
-    fclose(initial_file); fclose(tmp_file);
+    int initial_file_closed = fclose(initial_file); 
+    int tmp_file_closed = fclose(tmp_file);
 
     
     if(remove(file_name) != 0){
@@ -121,6 +132,9 @@ int delete_file_line(const char *file_name, int line){
         return 0;
     }
 
-    return 1;
+    if(initial_file_closed == 0 && tmp_file_closed == 0)
+        return 1;
+
+    return 0;
 }
 
